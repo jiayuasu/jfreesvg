@@ -94,6 +94,7 @@ import org.jfree.graphics2d.GraphicsUtils;
 import org.jfree.graphics2d.LinearGradientPaintKey;
 import org.jfree.graphics2d.RadialGradientPaintKey;
 
+// TODO: Auto-generated Javadoc
 /**
  * <p>
  * A {@code Graphics2D} implementation that creates SVG output.  After 
@@ -162,10 +163,13 @@ public final class SVGGraphics2D extends Graphics2D {
     /** The prefix for keys used to identify clip paths. */
     private static final String CLIP_KEY_PREFIX = "clip-";
     
+    /** The width. */
     private final int width;
     
+    /** The height. */
     private final int height;
     
+    /** The units. */
     private final SVGUnits units;
     
     /** 
@@ -283,10 +287,13 @@ public final class SVGGraphics2D extends Graphics2D {
     /** The current transform. */
     private AffineTransform transform = new AffineTransform();
 
+    /** The paint. */
     private Paint paint = Color.BLACK;
     
+    /** The color. */
     private Color color = Color.BLACK;
     
+    /** The composite. */
     private Composite composite = AlphaComposite.getInstance(
             AlphaComposite.SRC_OVER, 1.0f);
     
@@ -321,6 +328,7 @@ public final class SVGGraphics2D extends Graphics2D {
     /** A hidden image used for font metrics. */
     private BufferedImage fmImage;
     
+    /** The fm image G 2 D. */
     private Graphics2D fmImageG2D;
 
     /**
@@ -1417,8 +1425,13 @@ public final class SVGGraphics2D extends Graphics2D {
         return b.toString();
     }
     
+    /** The Constant DEFAULT_STROKE_CAP. */
     private static final String DEFAULT_STROKE_CAP = "butt";
+    
+    /** The Constant DEFAULT_STROKE_JOIN. */
     private static final String DEFAULT_STROKE_JOIN = "miter";
+    
+    /** The Constant DEFAULT_MITER_LIMIT. */
     private static final float DEFAULT_MITER_LIMIT = 4.0f;
     
     /**
@@ -1971,8 +1984,9 @@ public final class SVGGraphics2D extends Graphics2D {
     /**
      * Registers the clip so that we can later write out all the clip 
      * definitions in the DEFS element.
-     * 
-     * @param clip  the clip (ignored if {@code null}) 
+     *
+     * @param clip  the clip (ignored if {@code null})
+     * @return the string
      */
     private String registerClip(Shape clip) {
         if (clip == null) {
@@ -1989,6 +2003,12 @@ public final class SVGGraphics2D extends Graphics2D {
         return this.defsKeyPrefix + CLIP_KEY_PREFIX + index;
     }
     
+    /**
+     * Transform DP.
+     *
+     * @param d the d
+     * @return the string
+     */
     private String transformDP(double d) {
         if (this.transformFormat != null) {
             return transformFormat.format(d);            
@@ -1997,6 +2017,12 @@ public final class SVGGraphics2D extends Graphics2D {
         }
     }
     
+    /**
+     * Geom DP.
+     *
+     * @param d the d
+     * @return the string
+     */
     private String geomDP(double d) {
         if (this.geometryFormat != null) {
             return geometryFormat.format(d);            
@@ -2005,6 +2031,12 @@ public final class SVGGraphics2D extends Graphics2D {
         }
     }
     
+    /**
+     * Gets the SVG transform.
+     *
+     * @param t the t
+     * @return the SVG transform
+     */
     private String getSVGTransform(AffineTransform t) {
         StringBuilder b = new StringBuilder("matrix(");
         b.append(transformDP(t.getScaleX())).append(",");
@@ -2482,7 +2514,7 @@ public final class SVGGraphics2D extends Graphics2D {
      * Draws part of an image (defined by the source rectangle 
      * {@code (sx1, sy1, sx2, sy2)}) into the destination rectangle
      * {@code (dx1, dy1, dx2, dy2)}.  Note that the {@code observer} is ignored.
-     * 
+     *
      * @param img  the image.
      * @param dx1  the x-coordinate for the top left of the destination.
      * @param dy1  the y-coordinate for the top left of the destination.
@@ -2492,8 +2524,8 @@ public final class SVGGraphics2D extends Graphics2D {
      * @param sy1 the y-coordinate for the top left of the source.
      * @param sx2 the x-coordinate for the bottom right of the source.
      * @param sy2 the y-coordinate for the bottom right of the source.
-     * 
-     * @return {@code true} if the image is drawn. 
+     * @param observer the observer
+     * @return {@code true} if the image is drawn.
      */
     @Override
     public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, 
@@ -2703,6 +2735,7 @@ public final class SVGGraphics2D extends Graphics2D {
         svg.append("text-rendering=\"").append(this.textRendering)
            .append("\" shape-rendering=\"").append(this.shapeRendering)
            .append("\">\n");
+        
         StringBuilder defs = new StringBuilder("<defs>");
         for (GradientPaintKey key : this.gradientPaints.keySet()) {
             defs.append(getLinearGradientElement(this.gradientPaints.get(key), 
@@ -2729,9 +2762,103 @@ public final class SVGGraphics2D extends Graphics2D {
         }
         defs.append("</defs>\n");
         svg.append(defs);
+        
         svg.append(this.sb);
+        
+        
         svg.append("</svg>");        
         return svg.toString();
+    }
+    
+    /**
+     * Gets the SVG header.
+     *
+     * @return the SVG header
+     */
+    public String getSVGHeader() {
+        return getSVGHeader(null);
+    }
+    
+    /**
+     * Gets the SVG header.
+     *
+     * @param id the id
+     * @return the SVG header
+     */
+    public String getSVGHeader(String id) {
+        return getSVGHeader(id, true, null, null, null);
+    }
+    
+    /**
+     * Gets the SVG header.
+     *
+     * @param id the id
+     * @param includeDimensions the include dimensions
+     * @param viewBox the view box
+     * @param preserveAspectRatio the preserve aspect ratio
+     * @param meetOrSlice the meet or slice
+     * @return the SVG header
+     */
+    public String getSVGHeader(String id, boolean includeDimensions, 
+            ViewBox viewBox, PreserveAspectRatio preserveAspectRatio,
+            MeetOrSlice meetOrSlice)
+    {
+    	StringBuilder svgheader = new StringBuilder("<svg ");
+        if (id != null) {
+        	svgheader.append("id=\"").append(id).append("\" ");
+        }
+        String unitStr = this.units != null ? this.units.toString() : "";
+        svgheader.append("xmlns=\"http://www.w3.org/2000/svg\" ")
+           .append("xmlns:xlink=\"http://www.w3.org/1999/xlink\" ")
+           .append("xmlns:jfreesvg=\"http://www.jfree.org/jfreesvg/svg\" ");
+        if (includeDimensions) {
+        	svgheader.append("width=\"").append(this.width).append(unitStr)
+               .append("\" height=\"").append(this.height).append(unitStr)
+               .append("\" ");
+        }
+        if (viewBox != null) {
+        	svgheader.append("viewBox=\"").append(viewBox.valueStr()).append("\" ");
+            if (preserveAspectRatio != null) {
+            	svgheader.append("preserveAspectRatio=\"")
+                        .append(preserveAspectRatio.toString());
+                if (meetOrSlice != null) {
+                	svgheader.append(" ").append(meetOrSlice.toString());
+                }
+                svgheader.append("\" ");                    
+            }
+        }
+        svgheader.append("text-rendering=\"").append(this.textRendering)
+           .append("\" shape-rendering=\"").append(this.shapeRendering)
+           .append("\">\n");
+        
+        StringBuilder svgxmlheader = new StringBuilder();
+        svgxmlheader.append("<?xml version=\"1.0\"?>\n");
+        svgxmlheader.append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" ");
+        svgxmlheader.append("\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">\n");
+        svgxmlheader.append(svgheader);
+        
+        return svgxmlheader.toString();
+    }
+    
+    /**
+     * Gets the SVG body.
+     *
+     * @return the SVG body
+     */
+    public String getSVGBody()
+    {
+    	return this.sb.toString();
+    }
+    
+    /**
+     * Gets the SVG footer.
+     *
+     * @return the SVG footer
+     */
+    public String getSVGFooter()
+    {
+    	StringBuilder footer = new StringBuilder("</svg>");
+    	return footer.toString();
     }
     
     /**

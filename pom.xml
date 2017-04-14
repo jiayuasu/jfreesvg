@@ -2,22 +2,29 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
  
-  <groupId>org.jfree</groupId>
-  <artifactId>jfreesvg</artifactId>
-  <version>3.2</version>
+  <groupId>org.datasyslab</groupId>
+  <artifactId>JFreeSVGplus</artifactId>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
-
-  <name>JFreeSVG</name>
-  <url>http://www.jfree.org/jfreesvg</url>
-  <description>A fast, lightweight Java library for creating SVG output.</description>
   
-  <developers>
-    <developer>
-      <email>dave@jfree.org</email>
-      <name>David Gilbert</name>
-      <url>https://github.com/jfree</url>
-    </developer>
-  </developers>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>JFreeSVG 3.2 with additional functions for distributed systems</description>
+  <url>https://github.com/jiayuasu/jfreesvg</url>
+
+    <developers>
+        <developer>
+            <name>Jia Yu</name>
+            <email>jiayu2@asu.edu</email>
+            <organization>Arizona State University Data Systems Lab</organization>
+            <organizationUrl>http://www.datasyslab.org/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Mohamed Sarwat</name>
+            <email>msarwat@asu.edu</email>
+            <organization>Arizona State University Data Systems Lab</organization>
+            <organizationUrl>http://www.datasyslab.org/</organizationUrl>
+        </developer>
+    </developers>
 
   <licenses>
     <license>
@@ -28,9 +35,9 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/jfree/jfreesvg</url>
-    <connection>scm:git:git://github.com/jfree/jfreesvg.git</connection>
-    <developerConnection>scm:git:git@github.com:jfree/jfreesvg.git</developerConnection>
+    <url>https://github.com/jiayuasu/jfreesvg</url>
+    <connection>scm:git:git://github.com/jiayuasu/jfreesvg.git</connection>
+    <developerConnection>scm:git:git@github.com:jiayuasu/jfreesvg.git</developerConnection>
   </scm>
 
   <properties>
@@ -41,108 +48,159 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
-    <plugins>
+ <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>            
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-          <compilerArgument>-Xlint:unchecked</compilerArgument>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <excludes>
-            <exclude>org/jfree/graphics2d/demo/**</exclude>
-          </excludes>                
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       
+      
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.3</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
-        </configuration>
-      </plugin>            
-
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.1</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <transformers>
+                        <!--  use transformer to handle merge of META-INF/services - see http://java.net/jira/browse/JERSEY-440?focusedCommentId=14822&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#action_14822 -->
+                            <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                  <transformer
+                     implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                     <resource>reference.conf</resource>
+                  </transformer>
+                   <transformer
+                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                   <manifestEntries>
+                   <Main-Class>akka.Main</Main-Class>
+                   </manifestEntries>
+                   </transformer>
+                        </transformers> 
+                        <filters>
+                            <!--  filter to address "Invalid signature file" issue - see http://stackoverflow.com/a/6743609/589215-->
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <directory>src/resource</directory>
+      </resource>
+    </resources>
   </build>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>    
-
   <profiles>
-    <profile> 
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <inherited>true</inherited>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
-            <executions>
-              <execution>
-                <id>attach-javadoc</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <sourceFileExcludes>
-                <exclude>org/jfree/graphics2d/demo/**</exclude>
-              </sourceFileExcludes>
-            </configuration>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>2.2.1</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
+    <profile>
+        <id>release-sign-artifacts</id>
+        <activation>
+            <property>
+                <name>performRelease</name>
+                <value>true</value>
+            </property>
+        </activation>
+        <build>
+            <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <stagingProfileId>21756750b51471</stagingProfileId>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+              </plugin>
+        <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+            </plugins>
       </build>
     </profile>
   </profiles>

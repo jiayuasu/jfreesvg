@@ -8,3 +8,6 @@ distribution
 *.jar
 *.war
 *.ear
+/.settings/
+/.classpath
+/.project
