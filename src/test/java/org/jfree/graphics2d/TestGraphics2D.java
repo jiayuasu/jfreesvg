@@ -786,4 +786,24 @@ public class TestGraphics2D {
         assertEquals(w, fm.stringWidth("ABC"));
         assertEquals(bounds.getWidth(), fm.getStringBounds("ABC", this.g2).getWidth(), EPSILON);
     }
+    
+    @Test
+    public void testSVGHeader() {
+    	assertEquals(((SVGGraphics2D)this.g2).getSVGHeader(),"<?xml version=\"1.0\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">"
+    			+"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:jfreesvg=\"http://www.jfree.org/jfreesvg/svg\" width=\"10\" height=\"20\" text-rendering=\"auto\" shape-rendering=\"auto\">");
+    }
+    
+    @Test
+    public void testSVGBody() {
+    	this.g2.drawRect(1, 1, 10, 20);
+    	assertEquals(((SVGGraphics2D)this.g2).getSVGBody(),"<line x1=\"1\" y1=\"1\" x2=\"10\" y2=\"1\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
+    	+"<line x1=\"11\" y1=\"1\" x2=\"11\" y2=\"20\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
+    	+"<line x1=\"11\" y1=\"21\" x2=\"2\" y2=\"21\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
+    	+"<line x1=\"1\" y1=\"21\" x2=\"1\" y2=\"2\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />");
+    }
+    
+    @Test
+    public void testSVGFooter() {
+    	assertEquals(((SVGGraphics2D)this.g2).getSVGFooter(),"</svg>");
+    }
 }

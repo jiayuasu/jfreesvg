@@ -2829,12 +2829,12 @@ public final class SVGGraphics2D extends Graphics2D {
         }
         svgheader.append("text-rendering=\"").append(this.textRendering)
            .append("\" shape-rendering=\"").append(this.shapeRendering)
-           .append("\">\n");
+           .append("\">");
         
         StringBuilder svgxmlheader = new StringBuilder();
-        svgxmlheader.append("<?xml version=\"1.0\"?>\n");
+        svgxmlheader.append("<?xml version=\"1.0\"?>");
         svgxmlheader.append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" ");
-        svgxmlheader.append("\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">\n");
+        svgxmlheader.append("\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
         svgxmlheader.append(svgheader);
         
         return svgxmlheader.toString();
