@@ -32,12 +32,14 @@
 
 package org.jfree.graphics2d.svg;
 
+import java.io.Serializable;
+
 /**
  * An enumeration of the values for the {@code meetOrSlice} attribute.
  * 
  * @since 3.2
  */
-public enum MeetOrSlice {
+public enum MeetOrSlice implements Serializable{
     
     MEET("meet"), 
     

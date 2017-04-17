@@ -44,11 +44,12 @@ import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.VolatileImage;
 import java.awt.image.WritableRaster;
+import java.io.Serializable;
 
 /**
  * A graphics configuration for the {@link SVGGraphics2D} class.
  */
-public class SVGGraphicsConfiguration extends GraphicsConfiguration {
+public class SVGGraphicsConfiguration extends GraphicsConfiguration implements Serializable{
 
     private GraphicsDevice device;
     

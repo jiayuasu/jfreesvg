@@ -32,12 +32,14 @@
 
 package org.jfree.graphics2d.svg;
 
+import java.io.Serializable;
+
 /**
  * An enumeration of the values for SVG units.
  * 
  * @since 3.2
  */
-public enum SVGUnits {
+public enum SVGUnits implements Serializable{
     
     /** The font size. */
     EM("em"),

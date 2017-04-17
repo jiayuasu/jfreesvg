@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
@@ -46,7 +47,7 @@ import org.jfree.graphics2d.Args;
 /**
  * Utility methods related to the {@link SVGGraphics2D} implementation.
  */
-public class SVGUtils {
+public class SVGUtils implements Serializable{
     
     private SVGUtils() {
         // no need to instantiate this
