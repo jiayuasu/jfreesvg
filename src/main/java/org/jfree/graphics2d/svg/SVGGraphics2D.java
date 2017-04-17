@@ -295,7 +295,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     private Color color = Color.BLACK;
     
     /** The composite. */
-    //private Composite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+    private Composite composite = AlphaComposite.getInstance(
+            AlphaComposite.SRC_OVER, 1.0f);
     
     /** The current stroke. */
     private Stroke stroke = new BasicStroke(1.0f);
@@ -977,9 +978,9 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public Composite getComposite() {
-        //return this.composite;
-    	return null;
-    } 
+        return this.composite;
+    }
+    
     /**
      * Sets the composite (only {@code AlphaComposite} is handled).
      * 
@@ -989,13 +990,12 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public void setComposite(Composite comp) {
-    	/*
         if (comp == null) {
             throw new IllegalArgumentException("Null 'comp' argument.");
         }
         this.composite = comp;
-        */
     }
+
     /**
      * Returns the current stroke (used when drawing shapes). 
      * 
@@ -1369,13 +1369,11 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     private float getAlpha() {
        float alpha = 1.0f;
-       /*
        if (this.composite instanceof AlphaComposite) {
            AlphaComposite ac = (AlphaComposite) this.composite;
            alpha = ac.getAlpha();
        }
-       */
-       return this.color.getTransparency();
+       return alpha;
     }
 
     /**

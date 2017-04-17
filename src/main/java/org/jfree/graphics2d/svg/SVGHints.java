@@ -32,7 +32,6 @@
 package org.jfree.graphics2d.svg;
 
 import java.awt.RenderingHints;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ import java.util.List;
  * </ul>
  * 
  */
-public final class SVGHints implements Serializable{
+public final class SVGHints {
 
     private SVGHints() {
         // no need to instantiate this    

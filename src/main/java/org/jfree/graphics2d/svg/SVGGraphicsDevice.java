@@ -34,12 +34,11 @@ package org.jfree.graphics2d.svg;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
-import java.io.Serializable;
 
 /**
  * A graphics device for JFreeSVG.
  */
-public class SVGGraphicsDevice extends GraphicsDevice implements Serializable{
+public class SVGGraphicsDevice extends GraphicsDevice {
 
     private String id;
     

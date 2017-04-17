@@ -32,14 +32,12 @@
 
 package org.jfree.graphics2d.svg;
 
-import java.io.Serializable;
-
 /**
  * Represents a view box in SVG.
  * 
  * @since 3.2
  */
-public class ViewBox implements Serializable{
+public class ViewBox {
 
     private int minX;
     

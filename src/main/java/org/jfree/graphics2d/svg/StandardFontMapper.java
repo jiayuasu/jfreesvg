@@ -33,7 +33,6 @@
 package org.jfree.graphics2d.svg;
 
 import java.awt.Font;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import org.jfree.graphics2d.Args;
@@ -45,7 +44,7 @@ import org.jfree.graphics2d.Args;
  * 
  * @since 1.5
  */
-public class StandardFontMapper implements FontMapper, Serializable {
+public class StandardFontMapper implements FontMapper {
     
     /** Storage for the alternates. */
     private Map<String, String> alternates;
