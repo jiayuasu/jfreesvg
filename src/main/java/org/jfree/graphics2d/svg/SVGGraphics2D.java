@@ -316,8 +316,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * positioning issue identified by Christoph Nahr:
      * http://news.kynosarges.org/2014/06/28/glyph-positioning-in-jfreesvg-orsonpdf/
      */
-    private final FontRenderContext fontRenderContext = new FontRenderContext(
-            null, false, true);
+    //private final FontRenderContext fontRenderContext = new FontRenderContext(
+    //        null, false, true);
 
     /** Maps font family names to alternates (or leaves them unchanged). */
     private FontMapper fontMapper;
@@ -1644,7 +1644,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public FontRenderContext getFontRenderContext() {
-        return this.fontRenderContext;
+        //return this.fontRenderContext;
+    	return null;
     }
 
     /**
@@ -1733,6 +1734,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     @Override
     public void drawString(AttributedCharacterIterator iterator, float x, 
             float y) {
+    	/*
         Set<Attribute> s = iterator.getAllAttributeKeys();
         if (!s.isEmpty()) {
             TextLayout layout = new TextLayout(iterator, 
@@ -1748,6 +1750,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             }
             drawString(strb.toString(), x, y);
         }
+        */
     }
 
     /**
@@ -1759,7 +1762,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-        fill(g.getOutline(x, y));
+        //fill(g.getOutline(x, y));
     }
 
     /**
