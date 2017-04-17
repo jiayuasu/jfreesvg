@@ -702,7 +702,7 @@ public class TestGraphics2D {
     /**
      * Check that a null GlyphVector throws a <code>NullPointerException</code>.
      */
-    //@Test
+    @Test
     public void drawGlyphVectorNull() {
         try {
             g2.drawGlyphVector(null, 10, 10);
@@ -773,7 +773,7 @@ public class TestGraphics2D {
      * A test to check whether setting a transform on the Graphics2D affects
      * the results of text measurements performed via getFontMetrics().
      */
-    //@Test
+    @Test
     public void testGetFontMetrics() {
         Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
         FontMetrics fm = this.g2.getFontMetrics(f);
@@ -796,7 +796,7 @@ public class TestGraphics2D {
     @Test
     public void testSVGBody() {
     	this.g2.drawRect(1, 1, 10, 20);
-       	assertEquals(((SVGGraphics2D)this.g2).getSVGBody(),"<line x1=\"1\" y1=\"1\" x2=\"10\" y2=\"1\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
+    	assertEquals(((SVGGraphics2D)this.g2).getSVGBody(),"<line x1=\"1\" y1=\"1\" x2=\"10\" y2=\"1\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
     	+"<line x1=\"11\" y1=\"1\" x2=\"11\" y2=\"20\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
     	+"<line x1=\"11\" y1=\"21\" x2=\"2\" y2=\"21\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />"
     	+"<line x1=\"1\" y1=\"21\" x2=\"1\" y2=\"2\" style=\"stroke-width: 1.0;stroke: rgb(0,0,0);stroke-opacity: 1.0;stroke-linecap: square;\" transform=\"matrix(1,0,0,1,0,0)\" />");
