@@ -47,7 +47,7 @@ import java.awt.MultipleGradientPaint.CycleMethod;
 import java.awt.Paint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
-//import java.awt.RenderingHints;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
@@ -188,7 +188,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     private String textRendering = "auto";
     
     /** Rendering hints (see SVGHints). */
-    private final SVGRenderingHints hints;
+    private final RenderingHints hints;
     
     /** 
      * A flag that controls whether or not the KEY_STROKE_CONTROL hint is
@@ -448,7 +448,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         this.fontMapper = new StandardFontMapper();
         this.zeroStrokeWidth = 0.1;
         this.sb = sb;
-        this.hints = new SVGRenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
+        this.hints = new RenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
                 SVGHints.VALUE_IMAGE_HANDLING_EMBED);
         // force the formatters to use a '.' for the decimal point
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
@@ -1037,7 +1037,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #setRenderingHint(java.awt.RenderingHints.Key, java.lang.Object) 
      */
     @Override
-    public Object getRenderingHint(SVGRenderingHints.Key hintKey) {
+    public Object getRenderingHint(RenderingHints.Key hintKey) {
         return this.hints.get(hintKey);
     }
 
@@ -1051,7 +1051,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #getRenderingHint(java.awt.RenderingHints.Key) 
      */
     @Override
-    public void setRenderingHint(SVGRenderingHints.Key hintKey, Object hintValue) {
+    public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue) {
         if (hintKey == null) {
             throw new NullPointerException("Null 'hintKey' not permitted.");
         }
@@ -1121,8 +1121,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #setRenderingHints(java.util.Map) 
      */
     @Override
-    public SVGRenderingHints getRenderingHints() {
-        return (SVGRenderingHints) this.hints.clone();
+    public RenderingHints getRenderingHints() {
+        return (RenderingHints) this.hints.clone();
     }
 
     /**
@@ -1499,12 +1499,12 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             b.append(";");
         }
         if (this.checkStrokeControlHint) {
-            Object hint = getRenderingHint(SVGRenderingHints.KEY_STROKE_CONTROL);
-            if (SVGRenderingHints.VALUE_STROKE_NORMALIZE.equals(hint) 
+            Object hint = getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
+            if (RenderingHints.VALUE_STROKE_NORMALIZE.equals(hint) 
                     && !this.shapeRendering.equals("crispEdges")) {
                 b.append("shape-rendering:crispEdges;");
             }
-            if (SVGRenderingHints.VALUE_STROKE_PURE.equals(hint) 
+            if (RenderingHints.VALUE_STROKE_PURE.equals(hint) 
                     && !this.shapeRendering.equals("geometricPrecision")) {
                 b.append("shape-rendering:geometricPrecision;");
             }
@@ -1629,8 +1629,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
                     BufferedImage.TYPE_INT_RGB);
             this.fmImageG2D = this.fmImage.createGraphics();
             this.fmImageG2D.setRenderingHint(
-                    SVGRenderingHints.KEY_FRACTIONALMETRICS, 
-                    SVGRenderingHints.VALUE_FRACTIONALMETRICS_ON);
+                    RenderingHints.KEY_FRACTIONALMETRICS, 
+                    RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         }
         return this.fmImageG2D.getFontMetrics(f);
     }
