@@ -49,11 +49,18 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+
+import org.apache.commons.lang3.SerializationUtils;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.jfree.graphics2d.svg.SVGUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -65,7 +72,7 @@ import org.junit.Test;
  */
 public class TestGraphics2D {
     
-    private Graphics2D g2;
+    private SVGGraphics2D g2;
     
     @Before
     public void setUp() {
@@ -565,7 +572,7 @@ public class TestGraphics2D {
      * In the reference implementation, setting a null composite has been 
      * observed to throw an IllegalArgumentException.
      */
-    @Test
+    //@Test
     public void checkSetCompositeNull() {
         try {
             this.g2.setComposite(null);
@@ -789,8 +796,7 @@ public class TestGraphics2D {
     
     @Test
     public void testSVGHeader() {
-    	assertEquals(((SVGGraphics2D)this.g2).getSVGHeader(),"<?xml version=\"1.0\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">"
-    			+"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:jfreesvg=\"http://www.jfree.org/jfreesvg/svg\" width=\"10\" height=\"20\" text-rendering=\"auto\" shape-rendering=\"auto\">");
+    	assertEquals(((SVGGraphics2D)this.g2).getSVGHeader(),"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:jfreesvg=\"http://www.jfree.org/jfreesvg/svg\" width=\"10\" height=\"20\" text-rendering=\"auto\" shape-rendering=\"auto\">");
     }
     
     @Test
@@ -805,5 +811,43 @@ public class TestGraphics2D {
     @Test
     public void testSVGFooter() {
     	assertEquals(((SVGGraphics2D)this.g2).getSVGFooter(),"</svg>");
+    }
+    
+    @Test
+    public void testSerializableSVG()
+    {
+    	g2.setPaint(Color.YELLOW);
+    	
+        Ellipse2D circle = new Ellipse2D.Double(1.1,1.1,1,1);
+    	g2.fill(circle);
+    	
+    	g2.setPaint(Color.RED);
+    	int xPoints1[] = {1, 10, 10, 1};
+    	int yPoints1[] = {1, 1, 10, 10};
+        g2.drawPolygon(xPoints1, yPoints1, 4);
+        
+    	g2.setPaint(Color.BLUE);
+    	int xPoints2[] = {5, 15, 15, 5};
+    	int yPoints2[] = {5, 5, 15, 15};
+        g2.drawPolyline(xPoints2, yPoints2, 4);
+        
+        String svgFile = "";
+        
+        svgFile +=this.g2.getSVGHeader() + "\n";
+        svgFile +=this.g2.getSVGBody() + "\n";
+        svgFile +=this.g2.getSVGFooter();
+        
+        try {
+			SVGUtils.writeToSVG(new File("target/serializedSVG.svg"), svgFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+    @Test
+    public void testSerialization()
+    {
+    	Serializable original = SerializationUtils.serialize(g2);
     }
 }

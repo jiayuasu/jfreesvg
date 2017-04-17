@@ -32,7 +32,7 @@
 package org.jfree.graphics2d.svg;
 
 import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
+//import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;
@@ -47,10 +47,10 @@ import java.awt.MultipleGradientPaint.CycleMethod;
 import java.awt.Paint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
+//import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
+//import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -94,6 +94,9 @@ import org.jfree.graphics2d.GradientPaintKey;
 import org.jfree.graphics2d.GraphicsUtils;
 import org.jfree.graphics2d.LinearGradientPaintKey;
 import org.jfree.graphics2d.RadialGradientPaintKey;
+import org.jfree.graphics2d.serializable.SerializableBasicStroke;
+import org.jfree.graphics2d.serializable.SerializableFontRenderContext;
+import org.jfree.graphics2d.serializable.SerializableRenderingHints;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -188,7 +191,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     private String textRendering = "auto";
     
     /** Rendering hints (see SVGHints). */
-    private final RenderingHints hints;
+    private final SerializableRenderingHints hints;
     
     /** 
      * A flag that controls whether or not the KEY_STROKE_CONTROL hint is
@@ -295,11 +298,11 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     private Color color = Color.BLACK;
     
     /** The composite. */
-    private Composite composite = AlphaComposite.getInstance(
-            AlphaComposite.SRC_OVER, 1.0f);
+    //private Composite composite = AlphaComposite.getInstance(
+            //AlphaComposite.SRC_OVER, 1.0f);
     
     /** The current stroke. */
-    private Stroke stroke = new BasicStroke(1.0f);
+    private Stroke stroke = new SerializableBasicStroke(1.0f);
     
     /** 
      * The width of the SVG stroke to use when the user supplies a
@@ -317,7 +320,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * positioning issue identified by Christoph Nahr:
      * http://news.kynosarges.org/2014/06/28/glyph-positioning-in-jfreesvg-orsonpdf/
      */
-    private final FontRenderContext fontRenderContext = new FontRenderContext(
+    private final SerializableFontRenderContext fontRenderContext = new SerializableFontRenderContext(
             null, false, true);
 
     /** Maps font family names to alternates (or leaves them unchanged). */
@@ -448,7 +451,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         this.fontMapper = new StandardFontMapper();
         this.zeroStrokeWidth = 0.1;
         this.sb = sb;
-        this.hints = new RenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
+        this.hints = new SerializableRenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
                 SVGHints.VALUE_IMAGE_HANDLING_EMBED);
         // force the formatters to use a '.' for the decimal point
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
@@ -978,7 +981,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public Composite getComposite() {
-        return this.composite;
+        //return this.composite;
+    	return null;
     }
     
     /**
@@ -990,10 +994,12 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public void setComposite(Composite comp) {
-        if (comp == null) {
+        /*
+    	if (comp == null) {
             throw new IllegalArgumentException("Null 'comp' argument.");
         }
         this.composite = comp;
+        */
     }
 
     /**
@@ -1037,7 +1043,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #setRenderingHint(java.awt.RenderingHints.Key, java.lang.Object) 
      */
     @Override
-    public Object getRenderingHint(RenderingHints.Key hintKey) {
+    public Object getRenderingHint(SerializableRenderingHints.Key hintKey) {
         return this.hints.get(hintKey);
     }
 
@@ -1051,7 +1057,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #getRenderingHint(java.awt.RenderingHints.Key) 
      */
     @Override
-    public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue) {
+    public void setRenderingHint(SerializableRenderingHints.Key hintKey, Object hintValue) {
         if (hintKey == null) {
             throw new NullPointerException("Null 'hintKey' not permitted.");
         }
@@ -1121,8 +1127,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @see #setRenderingHints(java.util.Map) 
      */
     @Override
-    public RenderingHints getRenderingHints() {
-        return (RenderingHints) this.hints.clone();
+    public SerializableRenderingHints getRenderingHints() {
+        return (SerializableRenderingHints) this.hints.clone();
     }
 
     /**
@@ -1183,7 +1189,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     public void draw(Shape s) {
         // if the current stroke is not a BasicStroke then it is handled as
         // a special case
-        if (!(this.stroke instanceof BasicStroke)) {
+        if (!(this.stroke instanceof SerializableBasicStroke)) {
             fill(this.stroke.createStrokedShape(s));
             return;
         }
@@ -1369,11 +1375,13 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     private float getAlpha() {
        float alpha = 1.0f;
+       /*
        if (this.composite instanceof AlphaComposite) {
            AlphaComposite ac = (AlphaComposite) this.composite;
            alpha = ac.getAlpha();
        }
-       return alpha;
+       */
+       return this.color.getTransparency();
     }
 
     /**
@@ -1447,29 +1455,29 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         String strokeJoin = DEFAULT_STROKE_JOIN;
         float miterLimit = DEFAULT_MITER_LIMIT;
         float[] dashArray = new float[0];
-        if (this.stroke instanceof BasicStroke) {
-            BasicStroke bs = (BasicStroke) this.stroke;
+        if (this.stroke instanceof SerializableBasicStroke) {
+        	SerializableBasicStroke bs = (SerializableBasicStroke) this.stroke;
             strokeWidth = bs.getLineWidth() > 0.0 ? bs.getLineWidth() 
                     : this.zeroStrokeWidth;
             switch (bs.getEndCap()) {
-                case BasicStroke.CAP_ROUND:
+                case SerializableBasicStroke.CAP_ROUND:
                     strokeCap = "round";
                     break;
-                case BasicStroke.CAP_SQUARE:
+                case SerializableBasicStroke.CAP_SQUARE:
                     strokeCap = "square";
                     break;
-                case BasicStroke.CAP_BUTT:
+                case SerializableBasicStroke.CAP_BUTT:
                 default:
                     // already set to "butt"    
             }
             switch (bs.getLineJoin()) {
-                case BasicStroke.JOIN_BEVEL:
+                case SerializableBasicStroke.JOIN_BEVEL:
                     strokeJoin = "bevel";
                     break;
-                case BasicStroke.JOIN_ROUND:
+                case SerializableBasicStroke.JOIN_ROUND:
                     strokeJoin = "round";
                     break;
-                case BasicStroke.JOIN_MITER:
+                case SerializableBasicStroke.JOIN_MITER:
                 default:
                     // already set to "miter"
             }
@@ -1499,12 +1507,12 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             b.append(";");
         }
         if (this.checkStrokeControlHint) {
-            Object hint = getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-            if (RenderingHints.VALUE_STROKE_NORMALIZE.equals(hint) 
+            Object hint = getRenderingHint(SerializableRenderingHints.KEY_STROKE_CONTROL);
+            if (SerializableRenderingHints.VALUE_STROKE_NORMALIZE.equals(hint) 
                     && !this.shapeRendering.equals("crispEdges")) {
                 b.append("shape-rendering:crispEdges;");
             }
-            if (RenderingHints.VALUE_STROKE_PURE.equals(hint) 
+            if (SerializableRenderingHints.VALUE_STROKE_PURE.equals(hint) 
                     && !this.shapeRendering.equals("geometricPrecision")) {
                 b.append("shape-rendering:geometricPrecision;");
             }
@@ -1629,8 +1637,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
                     BufferedImage.TYPE_INT_RGB);
             this.fmImageG2D = this.fmImage.createGraphics();
             this.fmImageG2D.setRenderingHint(
-                    RenderingHints.KEY_FRACTIONALMETRICS, 
-                    RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            		SerializableRenderingHints.KEY_FRACTIONALMETRICS, 
+            		SerializableRenderingHints.VALUE_FRACTIONALMETRICS_ON);
         }
         return this.fmImageG2D.getFontMetrics(f);
     }
@@ -1641,7 +1649,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * @return The font render context (never {@code null}).
      */
     @Override
-    public FontRenderContext getFontRenderContext() {
+    public SerializableFontRenderContext getFontRenderContext() {
         return this.fontRenderContext;
     }
 
@@ -2833,9 +2841,9 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
            .append("\">");
         
         StringBuilder svgxmlheader = new StringBuilder();
-        svgxmlheader.append("<?xml version=\"1.0\"?>");
-        svgxmlheader.append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" ");
-        svgxmlheader.append("\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
+        //svgxmlheader.append("<?xml version=\"1.0\"?>");
+        //svgxmlheader.append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" ");
+        //svgxmlheader.append("\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
         svgxmlheader.append(svgheader);
         
         return svgxmlheader.toString();
