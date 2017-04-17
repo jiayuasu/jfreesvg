@@ -72,6 +72,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
@@ -158,7 +159,7 @@ import org.jfree.graphics2d.RadialGradientPaintKey;
  * {@code org.jfree.graphics2d.demo} package in the {@code src} directory.
  * </p>
  */
-public final class SVGGraphics2D extends Graphics2D {
+public final class SVGGraphics2D extends Graphics2D implements Serializable{
 
     /** The prefix for keys used to identify clip paths. */
     private static final String CLIP_KEY_PREFIX = "clip-";
