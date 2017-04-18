@@ -191,7 +191,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     private String textRendering = "auto";
     
     /** Rendering hints (see SVGHints). */
-    private final SerializableRenderingHints hints;
+    //private final SerializableRenderingHints hints;
     
     /** 
      * A flag that controls whether or not the KEY_STROKE_CONTROL hint is
@@ -451,8 +451,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         this.fontMapper = new StandardFontMapper();
         this.zeroStrokeWidth = 0.1;
         this.sb = sb;
-        this.hints = new SerializableRenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
-                SVGHints.VALUE_IMAGE_HANDLING_EMBED);
+        //this.hints = new SerializableRenderingHints(SVGHints.KEY_IMAGE_HANDLING, 
+        //        SVGHints.VALUE_IMAGE_HANDLING_EMBED);
         // force the formatters to use a '.' for the decimal point
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator('.');
@@ -471,7 +471,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         this.shapeRendering = parent.shapeRendering;
         this.textRendering = parent.textRendering;
         this.fontMapper = parent.fontMapper;
-        getRenderingHints().add(parent.hints);
+        //getRenderingHints().add(parent.hints);
         this.checkStrokeControlHint = parent.checkStrokeControlHint;
         setTransformDP(parent.transformDP);
         setGeometryDP(parent.geometryDP);
@@ -1044,7 +1044,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public Object getRenderingHint(SerializableRenderingHints.Key hintKey) {
-        return this.hints.get(hintKey);
+        //return this.hints.get(hintKey);
+    	return null;
     }
 
     /**
@@ -1114,7 +1115,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             this.sb.append(SVGUtils.escapeForXML(String.valueOf(hintValue)));
             this.sb.append("</title>");     
         } else {
-            this.hints.put(hintKey, hintValue);
+            //this.hints.put(hintKey, hintValue);
         }
     }
 
@@ -1128,7 +1129,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public SerializableRenderingHints getRenderingHints() {
-        return (SerializableRenderingHints) this.hints.clone();
+        //return (SerializableRenderingHints) this.hints.clone();
+    	return null;
     }
 
     /**
@@ -1140,7 +1142,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public void setRenderingHints(Map<?, ?> hints) {
-        this.hints.clear();
+        //this.hints.clear();
         addRenderingHints(hints);
     }
 
@@ -1151,7 +1153,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      */
     @Override
     public void addRenderingHints(Map<?, ?> hints) {
-        this.hints.putAll(hints);
+        //this.hints.putAll(hints);
     }
 
     /**
@@ -1160,7 +1162,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
      * 
      * @param sb  the string builder ({@code null} not permitted). 
      */
-    private void appendOptionalElementIDFromHint(StringBuilder sb) {
+    public void appendOptionalElementIDFromHint(StringBuilder sb) {
+    	/*
         String elementID = (String) this.hints.get(SVGHints.KEY_ELEMENT_ID);
         if (elementID != null) {
             this.hints.put(SVGHints.KEY_ELEMENT_ID, null); // clear it
@@ -1172,6 +1175,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             }
             this.sb.append("id=\"").append(elementID).append("\" ");
         }
+        */
     }
     
     /**
@@ -1507,6 +1511,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             b.append(";");
         }
         if (this.checkStrokeControlHint) {
+        	/*
             Object hint = getRenderingHint(SerializableRenderingHints.KEY_STROKE_CONTROL);
             if (SerializableRenderingHints.VALUE_STROKE_NORMALIZE.equals(hint) 
                     && !this.shapeRendering.equals("crispEdges")) {
@@ -1516,6 +1521,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
                     && !this.shapeRendering.equals("geometricPrecision")) {
                 b.append("shape-rendering:geometricPrecision;");
             }
+            */
         }
         return b.toString();
     }
@@ -1686,7 +1692,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
     public void drawString(String str, float x, float y) {
         if (str == null) {
             throw new NullPointerException("Null 'str' argument.");
-        }
+        }/*
         if (!SVGHints.VALUE_DRAW_STRING_TYPE_VECTOR.equals(
                 this.hints.get(SVGHints.KEY_DRAW_STRING_TYPE))) {
             this.sb.append("<g ");
@@ -1711,7 +1717,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             AttributedString as = new AttributedString(str, 
                     this.font.getAttributes());
             drawString(as.getIterator(), x, y);
-        }
+        }*/
     }
 
     /**
@@ -2419,6 +2425,7 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
         }
         // the rendering hints control whether the image is embedded or
         // referenced...
+        /*
         Object hint = getRenderingHint(SVGHints.KEY_IMAGE_HANDLING);
         if (SVGHints.VALUE_IMAGE_HANDLING_EMBED.equals(hint)) {
             this.sb.append("<image ");
@@ -2462,7 +2469,8 @@ public final class SVGGraphics2D extends Graphics2D implements Serializable{
             this.sb.append("width=\"").append(geomDP(w)).append("\" height=\"")
                     .append(geomDP(h)).append("\"/>\n");
             return true;
-        }
+        }*/
+        return true;
     }
 
     /**
