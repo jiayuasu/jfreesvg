@@ -1,3 +1,31 @@
+JFreeSVGplus
+============
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.datasyslab/JFreeSVGplus/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.datasyslab/JFreeSVGplus)
+
+Version 0.1.0 April 2017
+
+JFreeSVGplus extends JFreeSVG v3.2 to work in a distributed environment.
+
+## Main features
+### Tuple-wise SVG file
+
+Since a SVG image is written in XML format, JFreeSVGplus breaks a regular SVG file to three parts and outputs them separately:
+
+1. SVG header: File header of a SVG image
+2. SVG elements: The main body of a SVG image. This body consists of lots of objects which stay in this image  
+	* Object
+	* Object
+	* ...
+3. SVG footer: \</svg> File footer of a SVG image
+
+### Serializable / Deserializable objects
+All class instances in JFreeSVGplus can be serialized/deserialized. Thus, JFreeSVGplus can fully work in a distributed environment.
+
+###TODOs:
+Font rendering and RenderingHints are not supported. All SVG rendering hits are "auto".
+
+---
+
 JFreeSVG
 ========
 
