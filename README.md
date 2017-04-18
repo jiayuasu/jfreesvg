@@ -24,6 +24,39 @@ All class instances in JFreeSVGplus can be serialized/deserialized. Thus, JFreeS
 ###TODOs:
 Font rendering and RenderingHints are not supported. All SVG rendering hits are "auto".
 
+
+### Usage
+```
+	   SVGGraphics2D g2 = new SVGGraphics2D(100, 100);
+      	
+      	g2.getSVGheader();
+
+   		g2.getSVGfooter();
+
+		// Polygon 1
+   		g2.setPaint(COLOR.BLUE);
+   		int[] xPoints = {1,10,10,1};
+   		int[] yPoints = {1,1,10,10};
+   		g2.drawPolygon(xPoints,yPoints,4);   
+   		g2.getSVGbody();
+   		
+   		// Polygon 2  		
+   		g2.setPaint(COLOR.BLUE);
+   		int[] xPoints = {1,10,10,1};
+   		int[] yPoints = {1,1,10,10};
+   		g2.drawPolygon(xPoints,yPoints,4);   
+   		g2.getSVGbody();
+   		
+   		// Polygon 3
+   		g2.setPaint(COLOR.BLUE);
+   		int[] xPoints = {1,10,10,1};
+   		int[] yPoints = {1,1,10,10};
+   		g2.drawPolygon(xPoints,yPoints,4);   
+   		g2.getSVGbody();
+   		...
+   		...
+
+```
 ---
 
 JFreeSVG
